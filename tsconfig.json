@@ -17,6 +17,14 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "gutenberg-angular": [
+        "dist/gutenberg-angular"
+      ],
+      "gutenberg-angular/*": [
+        "dist/gutenberg-angular/*"
+      ]
+    }
   }
 }
