@@ -12,6 +12,13 @@
       "element",
       "pgl",
       "kebab-case"
+    ],
+    "variable-name": false
+  },
+  "linterOptions": {
+    "exclude": [
+        "**/*.spec.ts",
+        "**/testing/*"
     ]
   }
 }

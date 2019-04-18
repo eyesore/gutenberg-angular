@@ -55,12 +55,36 @@
             "tsConfig": "projects/gutenberg-angular-tester/tsconfig.app.json",
             "assets": [
               "projects/gutenberg-angular-tester/src/favicon.ico",
-              "projects/gutenberg-angular-tester/src/assets"
+              "projects/gutenberg-angular-tester/src/assets",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@frontkom/gutenberg-js/node_modules/tinymce/plugins",
+                "output": "/plugins/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@frontkom/gutenberg-js/node_modules/tinymce/skins",
+                "output": "/skins/"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@frontkom/gutenberg-js/node_modules/tinymce/themes",
+                "output": "/themes/"
+              }
             ],
             "styles": [
-              "projects/gutenberg-angular-tester/src/styles.css"
+              "projects/gutenberg-angular-tester/src/styles.css",
+              "node_modules/@frontkom/gutenberg-js/build/css/style.css",
+              "node_modules/@frontkom/gutenberg-js/build/css/block-library/style.css"
             ],
-            "scripts": [],
+            "scripts": [
+              "node_modules/uikit/dist/js/uikit.min.js",
+              "node_modules/uikit/dist/js/uikit-icons.min.js",
+              "node_modules/react/umd/react.production.min.js",
+              "node_modules/react-dom/umd/react-dom.production.min.js",
+              "node_modules/moment/min/moment.min.js",
+              "node_modules/jquery/dist/jquery.min.js"
+            ],
             "es5BrowserSupport": true
           },
           "configurations": {
@@ -71,7 +95,7 @@
                   "with": "projects/gutenberg-angular-tester/src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
+              "optimization": false,
               "outputHashing": "all",
               "sourceMap": false,
               "extractCss": true,
@@ -79,14 +103,7 @@
               "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
-              "budgets": [
-                {
-                  "type": "initial",
-                  "maximumWarning": "2mb",
-                  "maximumError": "5mb"
-                }
-              ]
+              "buildOptimizer": true
             }
           }
         },

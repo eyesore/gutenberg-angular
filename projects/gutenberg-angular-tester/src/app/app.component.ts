@@ -7,4 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'gutenberg-angular-tester';
+  constructor() {
+    console.log('window: ', window);
+  }
 }

@@ -11,7 +11,15 @@
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "importHelpers": true,
-    "types": [],
+    "types": [
+      "node",
+      "node_modules/uikit/dist/js/uikit.min.js",
+      "node_modules/uikit/dist/js/uikit-icons.min.js",
+      "node_modules/react/umd/react.production.min.js",
+      "node_modules/react-dom/umd/react-dom.production.min.js",
+      "node_modules/moment/min/moment.min.js",
+      "node_modules/jquery/dist/jquery.min.js"
+    ],
     "lib": [
       "dom",
       "es2018"
