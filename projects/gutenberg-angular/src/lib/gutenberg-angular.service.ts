@@ -5,7 +5,7 @@ import { Subject, BehaviorSubject, of } from 'rxjs';
 import { shareReplay, filter } from 'rxjs/operators';
 import { GenericObj } from './assets/generic';
 import { log } from './log/log.class';
-import { FETCH_MAP, PROXY, DATA } from './assets';
+import { FETCH_MAP, DATA } from './assets';
 
 @Injectable()
 export class GutenbergAngularService implements OnInit {
@@ -13,7 +13,6 @@ export class GutenbergAngularService implements OnInit {
     public content$ = new Subject<GenericObj>();
     private _ready$ = new BehaviorSubject<number>(null);
     public ready$ = this._ready$.asObservable();
-    private _fetch = PROXY;
     private _fetchMap = FETCH_MAP;
     private _data = DATA;
     defautApiFetch = (options) => {

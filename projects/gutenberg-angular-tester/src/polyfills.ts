@@ -2,25 +2,6 @@
 (window as any).global = window;
 import 'babel-polyfill';
 
-import 'core-js/es6/symbol';
-import 'core-js/es6/object';
-import 'core-js/es6/function';
-import 'core-js/es6/parse-int';
-import 'core-js/es6/parse-float';
-import 'core-js/es6/number';
-import 'core-js/es6/math';
-import 'core-js/es6/string';
-import 'core-js/es6/date';
-import 'core-js/es6/array';
-import 'core-js/es6/regexp';
-import 'core-js/es6/map';
-import 'core-js/es6/weak-map';
-import 'core-js/es6/set';
-
-import 'core-js/es6/reflect';
-
-import 'core-js/es7/reflect';
-
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -49,7 +30,7 @@ import 'core-js/es7/reflect';
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  */
-import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+//import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -79,34 +60,25 @@ import 'web-animations-js';  // Run `npm install --save web-animations-js`.
  * Zone JS is required by default for Angular itself.
  */
 import 'zone.js/dist/zone';  // Included with Angular CLI.
-import { API_FETCH_FUNC, PROXY } from 'projects/gutenberg-angular/src/lib/assets';
-import { stringify, parse } from 'querystring';
 
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
-function addQueryArgs(url, args) {
-    const queryStringIndex = url.indexOf('?');
-    const query = queryStringIndex !== -1 ? parse(url.substr(queryStringIndex + 1)) : {};
-    const baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+import { WINDOW_CONFIG } from 'projects/gutenberg-angular/src/lib/assets';
 
-    return baseUrl + '?' + stringify({ ...query, ...args });
-}
-(window as any).wp = {
-    apiFetch: API_FETCH_FUNC,
-    url: { addQueryArgs }
-};
-(window as any).wp_fetcher = PROXY.observe;
-// // (window as any).wp  = {} as WP;
+WINDOW_CONFIG.init();
+// (window as any).wp = {
+//     apiFetch: API_FETCH_FUNC,
+//     url: { addQueryArgs }
+// };
+// (window as any).wp_fetcher = PROXY.observe;
+// // // (window as any).wp  = {} as WP;
 
-(window as any).userSettings = {
-    uid: 'g-editor-page', // Among other things, this uid is used to identify and store editor user preferences in localStorage
-};
+// (window as any).userSettings = {
+//     uid: 'g-editor-page', // Among other things, this uid is used to identify and store editor user preferences in localStorage
+// };
 
 // // set your root path
 // (window as any).wpApiSettings = {
 //     root: ''
 // };
-(<any>window).save = function(content) {
-    console.log(content);
-  };

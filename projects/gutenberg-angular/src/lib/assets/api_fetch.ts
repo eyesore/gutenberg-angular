@@ -2,6 +2,7 @@ import { log } from '../log/log.class';
 import { Observable, BehaviorSubject, merge, Subject } from 'rxjs';
 import { BaseResponser } from './response';
 import { tap, filter, take } from 'rxjs/operators';
+import { parse, stringify } from 'querystring';
 
 // export const API_FETCH_FUNC = (options) => console.log(options);
 // export const API_FETCH_FUNC = (options): Promise<any> => {
@@ -13,9 +14,17 @@ import { tap, filter, take } from 'rxjs/operators';
 //     }
 //     return handler.send(options).pipe(take(1)).toPromise();
 // };
-export const API_FETCH_FUNC = (options): Promise<any> => PROXY.send(options).toPromise();
+const API_FETCH_FUNC = (options): Promise<any> => PROXY.send(options).toPromise();
 
-export class FetchHandler {
+const addQueryArgs = (url, args) => {
+    const queryStringIndex = url.indexOf('?');
+    const query = queryStringIndex !== -1 ? parse(url.substr(queryStringIndex + 1)) : {};
+    const baseUrl = queryStringIndex !== -1 ? url.substr(0, queryStringIndex) : url;
+
+    return baseUrl + '?' + stringify({ ...query, ...args });
+};
+
+class FetchHandler {
     private _send = new BehaviorSubject(null);
     private _response = new BehaviorSubject<BaseResponser>(null);
     get observe(): Observable<any> {
@@ -32,7 +41,26 @@ export class FetchHandler {
     }
 }
 
-export const PROXY = new FetchHandler();
+const PROXY = new FetchHandler();
+
+export const WINDOW_CONFIG = {
+    init: () => {
+        (window as any).wp = {
+            apiFetch: API_FETCH_FUNC,
+            url: { addQueryArgs }
+        };
+        (window as any).wp_fetcher = PROXY.observe;
+        // // (window as any).wp  = {} as WP;
+
+        (window as any).userSettings = {
+            uid: 'g-editor-page', // Among other things, this uid is used to identify and store editor user preferences in localStorage
+        };
+
+        (window as any).save = (content) => {
+            log.Debug(content);
+          };
+    }
+};
 
 const DATE = (new Date()).toISOString();
 
@@ -134,13 +162,13 @@ const _valueMapper = (options) => {
       localStorage.setItem('g-editor-page', JSON.stringify(item));
     }
     return item;
-}
+};
 
 export const FETCH_MAP = {
     '/wp/v2/types?context=edit': {
         page: DATA.pageType
     },
-    '/wp/v2/types/page?context=edit':{ ...DATA.pageType },
+    '/wp/v2/types/page?context=edit': { ...DATA.pageType },
     '/wp/v2/pages/1?context=edit': JSON.parse(localStorage.getItem('g-editor-page')) || DATA.page,
     '/wp/v2/pages/1': _valueMapper,
     '/wp/v2/pages/1/autosaves': _valueMapper,
