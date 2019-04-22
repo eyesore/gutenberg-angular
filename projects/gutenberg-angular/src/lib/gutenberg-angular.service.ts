@@ -1,7 +1,7 @@
 import { Injectable, Optional, Inject, PLATFORM_ID, OnInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Window, WindowConfig } from './assets/window';
-import { Subject, BehaviorSubject, of } from 'rxjs';
+import { Subject, BehaviorSubject, of, Observable } from 'rxjs';
 import { shareReplay, filter } from 'rxjs/operators';
 import { GenericObj } from './assets/generic';
 import { log } from './log/log.class';
@@ -26,12 +26,15 @@ export class GutenbergAngularService implements OnInit {
         @Inject('WINDOW') private w: Window,
         @Inject(PLATFORM_ID) private platformId: any,
         @Inject('LOCAL_STORAGE') private localStorage: any) {
-            this.w.wp_fetcher.pipe(
-                filter(value => Boolean(value))
-            ).subscribe(payload => {
-                log.Debug('window observable: ', payload);
-                this.findResponse(payload);
-            });
+            if (this.w.wp_fetcher instanceof Observable) {
+                this.w.wp_fetcher.pipe(
+                    filter(value => Boolean(value))
+                ).subscribe(payload => {
+                    log.Debug('window observable: ', payload);
+                    this.findResponse(payload);
+                });
+            }
+
         // if (windowConfig) {
         //     // Object.assign(this.w, windowConfig);
         //     this.w.userSettings.uid = windowConfig.userSettings.uid;

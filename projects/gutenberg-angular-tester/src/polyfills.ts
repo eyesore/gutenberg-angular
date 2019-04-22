@@ -66,7 +66,7 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 import { WINDOW_CONFIG } from 'projects/gutenberg-angular/src/lib/assets';
 
-WINDOW_CONFIG.init();
+WINDOW_CONFIG.init({fetch: null});
 // (window as any).wp = {
 //     apiFetch: API_FETCH_FUNC,
 //     url: { addQueryArgs }

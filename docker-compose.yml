@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  wordpress_db:
+    image: mysql:5.7
+    volumes:
+      - wordpress_db_data:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: somewordpress
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+
+  wordpress:
+    depends_on:
+      - wordpress_db
+    image: wordpress:latest
+    ports:
+      - "8000:80"
+    restart: always
+    volumes: 
+      - ./wordpress/plugins/gutenberg-angular:/var/www/html/wp-content/plugins/gutenberg-angular
+      # - ./build:/var/www/html/wp-content/plugins/gutenberg-angular/includes/js
+    environment:
+      WORDPRESS_DB_HOST: wordpress_db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+  
+  gutenberg:
+    image: eyesore/ng:7.3
+    volumes:
+      - ./:/ng
+      - ./wordpress/plugins/gutenberg-angular/includes/js:/build
+    entrypoint: 
+      - sh
+      - -c
+      - npm i && ng build gutenberg-angular-tester --watch
+    logging:
+      options:
+        max-size: "5k"
+volumes:
+    wordpress_db_data: {}
+    build_data:

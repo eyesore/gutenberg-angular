@@ -48,7 +48,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/gutenberg-angular-tester",
+            "outputPath": "build/gutenberg-angular-tester",
             "index": "projects/gutenberg-angular-tester/src/index.html",
             "main": "projects/gutenberg-angular-tester/src/main.ts",
             "polyfills": "projects/gutenberg-angular-tester/src/polyfills.ts",

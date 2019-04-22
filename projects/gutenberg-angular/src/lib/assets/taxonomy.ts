@@ -1,6 +1,6 @@
 import { IBaseTaxPostType } from './generic';
 
-export interface ITaxanomy<T> extends IBaseTaxPostType {
+export interface ITaxonomy<T> extends IBaseTaxPostType {
     show_cloud: boolean;
     types: Array<T>;
 }

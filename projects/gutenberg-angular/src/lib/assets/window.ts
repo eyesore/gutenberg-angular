@@ -3,7 +3,9 @@ import { Observable } from 'rxjs';
 
 export interface WP {
     [key: string]: any;
-    url: GenericObj;
+    url: {
+        addQueryArgs
+    };
     apiFetch(option): any;
 }
 

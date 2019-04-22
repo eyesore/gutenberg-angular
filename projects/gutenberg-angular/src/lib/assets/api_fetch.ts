@@ -3,6 +3,7 @@ import { Observable, BehaviorSubject, merge, Subject } from 'rxjs';
 import { BaseResponser } from './response';
 import { tap, filter, take } from 'rxjs/operators';
 import { parse, stringify } from 'querystring';
+import { WP } from './window';
 
 // export const API_FETCH_FUNC = (options) => console.log(options);
 // export const API_FETCH_FUNC = (options): Promise<any> => {
@@ -43,24 +44,57 @@ class FetchHandler {
 
 const PROXY = new FetchHandler();
 
-export const WINDOW_CONFIG = {
-    init: () => {
-        (window as any).wp = {
-            apiFetch: API_FETCH_FUNC,
-            url: { addQueryArgs }
-        };
-        (window as any).wp_fetcher = PROXY.observe;
-        // // (window as any).wp  = {} as WP;
+export interface Window_Config {
+   fetch: {
+       wp: WP;
+       observe: Observable<any>
+   };
+   user?: {
+       uid: string;
+   };
+   settings?: {
+       root: string;
+   };
+}
 
-        (window as any).userSettings = {
-            uid: 'g-editor-page', // Among other things, this uid is used to identify and store editor user preferences in localStorage
-        };
+export const WINDOW_CONFIG = {
+    init: (options?: Window_Config) => {
+        if (options.fetch != null) {
+            addApiFetch(options.fetch);
+        }
+
+        addUserSettings(options.user);
+        addApiSettings(options.settings);
+
 
         (window as any).save = (content) => {
             log.Debug(content);
           };
     }
 };
+const addApiFetch = (options = {
+    wp: {
+        apiFetch: API_FETCH_FUNC,
+        url: { addQueryArgs }
+    },
+    observe: PROXY.observe
+}) => {
+    (window as any).wp = options.wp;
+    (window as any).wp_fetcher = options.observe;
+    // // (window as any).wp  = {} as WP;
+
+};
+const addUserSettings = (options = {
+    uid: 'g-editor-page'
+}) => {
+    (window as any).userSettings = options; // Among other things, this uid is used to identify and store editor user preferences in localStorage
+}
+
+const addApiSettings = (options = {root: ''}) => {
+    if (options) {
+        (window as any).wpApiSettings = options;
+    }
+}
 
 const DATE = (new Date()).toISOString();
 

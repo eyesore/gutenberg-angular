@@ -1,4 +1,6 @@
-export interface IStatus {
+import { Slugable, Namable } from './generic';
+
+export interface IStatus extends Slugable, Namable {
     private: boolean;
     protected: boolean;
     public: boolean;
