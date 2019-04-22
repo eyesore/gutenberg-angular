@@ -83,3 +83,10 @@ export interface ExtrasArgumentListers {
     offset?: number;
     status?: StatusTypes;
 }
+
+export interface IBaseTaxPostType extends Namable, Describable, Slugable {
+    capabilities: GenericObj;
+    hierarchical: boolean;
+    labels: GenericObj;
+    rest_base: string;
+}
