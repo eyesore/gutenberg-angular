@@ -1,6 +1,8 @@
 // import { API_FETCH_FUNC } from 'gutenberg-angular/esm2015/lib/assets';
 (window as any).global = window;
-import 'babel-polyfill';
+if (!(global as any)._babelPolyfill && !(window as any)._babelPolyfill) {
+    require('babel-polyfill');
+  }
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
@@ -30,7 +32,7 @@ import 'babel-polyfill';
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  */
-//import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
@@ -66,7 +68,13 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 import { WINDOW_CONFIG } from 'projects/gutenberg-angular/src/lib/assets';
 
-WINDOW_CONFIG.init({fetch: null});
+WINDOW_CONFIG.init({
+    fetch: null,
+    settings: {
+        // url: "localhost:8000",
+        root: '?rest_route=/'
+    }
+});
 // (window as any).wp = {
 //     apiFetch: API_FETCH_FUNC,
 //     url: { addQueryArgs }

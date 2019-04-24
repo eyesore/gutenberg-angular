@@ -30,9 +30,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var rxjs_operators__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! rxjs/operators */ "../../node_modules/rxjs/_esm5/operators/index.js");
 /* harmony import */ var querystring__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! querystring */ "../../node_modules/querystring/index.js");
 /* harmony import */ var querystring__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(querystring__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @frontkom/gutenberg-js */ "../../node_modules/@frontkom/gutenberg-js/build/js/gutenberg-js.js");
-/* harmony import */ var _frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(_frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_5__);
-/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @wordpress/api-fetch */ "../../node_modules/@wordpress/api-fetch/build-module/index.js");
+/* harmony import */ var _frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @frontkom/gutenberg-js */ "../../node_modules/@frontkom/gutenberg-js/build/js/gutenberg-js.js");
+/* harmony import */ var _frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(_frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! @angular/core */ "../../node_modules/@angular/core/fesm5/core.js");
+
 
 
 
@@ -322,7 +324,7 @@ var addApiSettings = (/**
  * @return {?}
  */
 function (options) {
-    if (options === void 0) { options = {}; }
+    if (options === void 0) { options = { root: '' }; }
     if (options) {
         ((/** @type {?} */ (window))).wpApiSettings = options;
     }
@@ -497,6 +499,23 @@ var GutenbergAngularService = /** @class */ (function () {
                 _this.findResponse(payload);
             }));
         }
+        _wordpress_api_fetch__WEBPACK_IMPORTED_MODULE_5__["default"].use((/**
+         * @param {?} options
+         * @param {?} next
+         * @return {?}
+         */
+        function (options, next) {
+            /** @type {?} */
+            var result = next(options);
+            result.then((/**
+             * @param {?} r
+             * @return {?}
+             */
+            function (r) {
+                log.Debug('result: ', r);
+            }));
+            return result;
+        }));
         // if (windowConfig) {
         //     // Object.assign(this.w, windowConfig);
         //     this.w.userSettings.uid = windowConfig.userSettings.uid;
@@ -585,14 +604,14 @@ var GutenbergAngularService = /** @class */ (function () {
         this.localStorage.removeItem(key);
     };
     GutenbergAngularService.decorators = [
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Injectable"] }
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Injectable"] }
     ];
     /** @nocollapse */
     GutenbergAngularService.ctorParameters = function () { return [
-        { type: WindowConfig, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Optional"] }] },
-        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Inject"], args: ['WINDOW',] }] },
-        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_6__["PLATFORM_ID"],] }] },
-        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Inject"], args: ['LOCAL_STORAGE',] }] }
+        { type: WindowConfig, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Optional"] }] },
+        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Inject"], args: ['WINDOW',] }] },
+        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Inject"], args: [_angular_core__WEBPACK_IMPORTED_MODULE_7__["PLATFORM_ID"],] }] },
+        { type: undefined, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Inject"], args: ['LOCAL_STORAGE',] }] }
     ]; };
     return GutenbergAngularService;
 }());
@@ -636,17 +655,17 @@ var GutenbergAngularComponent = /** @class */ (function () {
             }
         };
         // Disable tips
-        _frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_5__["data"].dispatch('core/nux').disableTips();
+        _frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_6__["data"].dispatch('core/nux').disableTips();
         ((/** @type {?} */ (window)))._wpLoadGutenbergEditor = new Promise((/**
          * @param {?} resolve
          * @return {?}
          */
         function (resolve) {
-            Object(_frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_5__["domReady"])((/**
+            Object(_frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_6__["domReady"])((/**
              * @return {?}
              */
             function () {
-                resolve(_frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_5__["editPost"].initializeEditor('editor', 'page', 1, settings, {}));
+                resolve(_frontkom_gutenberg_js__WEBPACK_IMPORTED_MODULE_6__["editPost"].initializeEditor('editor', 'page', 1, settings, {}));
             }));
         }));
         // editPost.initializeEditor('editor', 'page', 1, settings, {});
@@ -658,7 +677,7 @@ var GutenbergAngularComponent = /** @class */ (function () {
         // });
     };
     GutenbergAngularComponent.decorators = [
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Component"], args: [{
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Component"], args: [{
                     selector: 'pgl-gutenberg-angular',
                     template: "\n    <div id=\"editor\" class=\"gutenberg__editor\"></div>\n  "
                 }] }
@@ -666,7 +685,7 @@ var GutenbergAngularComponent = /** @class */ (function () {
     /** @nocollapse */
     GutenbergAngularComponent.ctorParameters = function () { return [
         { type: GutenbergAngularService },
-        { type: WindowConfig, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["Inject"], args: ['WINDOW',] }] }
+        { type: WindowConfig, decorators: [{ type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["Inject"], args: ['WINDOW',] }] }
     ]; };
     return GutenbergAngularComponent;
 }());
@@ -695,7 +714,7 @@ var GutenbergAngularModule = /** @class */ (function () {
         };
     };
     GutenbergAngularModule.decorators = [
-        { type: _angular_core__WEBPACK_IMPORTED_MODULE_6__["NgModule"], args: [{
+        { type: _angular_core__WEBPACK_IMPORTED_MODULE_7__["NgModule"], args: [{
                     declarations: [GutenbergAngularComponent],
                     imports: [],
                     exports: [GutenbergAngularComponent],

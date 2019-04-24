@@ -54,6 +54,7 @@ export interface Window_Config {
    };
    settings?: {
        root: string;
+       url?: string;
    };
 }
 

@@ -21,7 +21,7 @@ services:
     restart: always
     volumes: 
       - ./wordpress/plugins/gutenberg-angular:/var/www/html/wp-content/plugins/gutenberg-angular
-      # - ./build:/var/www/html/wp-content/plugins/gutenberg-angular/includes/js
+      - ./build:/var/www/html/wp-content/plugins/gutenberg-angular/includes/js
     environment:
       WORDPRESS_DB_HOST: wordpress_db:3306
       WORDPRESS_DB_USER: wordpress
@@ -32,7 +32,7 @@ services:
     image: eyesore/ng:7.3
     volumes:
       - ./:/ng
-      - ./wordpress/plugins/gutenberg-angular/includes/js:/build
+      # - ./wordpress/plugins/gutenberg-angular/includes/js:/build
     entrypoint: 
       - sh
       - -c

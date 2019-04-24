@@ -27710,14 +27710,14 @@ var log = /** @class */ (function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-polyfill */ "../../node_modules/babel-polyfill/lib/index.js");
-/* harmony import */ var babel_polyfill__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_polyfill__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var zone_js_dist_zone__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! zone.js/dist/zone */ "../../node_modules/zone.js/dist/zone.js");
-/* harmony import */ var zone_js_dist_zone__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(zone_js_dist_zone__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var projects_gutenberg_angular_src_lib_assets__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! projects/gutenberg-angular/src/lib/assets */ "../gutenberg-angular/src/lib/assets/index.ts");
+/* harmony import */ var zone_js_dist_zone__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! zone.js/dist/zone */ "../../node_modules/zone.js/dist/zone.js");
+/* harmony import */ var zone_js_dist_zone__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(zone_js_dist_zone__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var projects_gutenberg_angular_src_lib_assets__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! projects/gutenberg-angular/src/lib/assets */ "../gutenberg-angular/src/lib/assets/index.ts");
 // import { API_FETCH_FUNC } from 'gutenberg-angular/esm2015/lib/assets';
 window.global = window;
-
+if (!global._babelPolyfill && !window._babelPolyfill) {
+    __webpack_require__(/*! babel-polyfill */ "../../node_modules/babel-polyfill/lib/index.js");
+}
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
  * You can add your own extra polyfills to this file.
@@ -27743,7 +27743,7 @@ window.global = window;
  * Only required if AnimationBuilder is used within the application and using IE/Edge or Safari.
  * Standard animation support in Angular DOES NOT require any polyfills (as of Angular 6.0).
  */
-//import 'web-animations-js';  // Run `npm install --save web-animations-js`.
+// import 'web-animations-js';  // Run `npm install --save web-animations-js`.
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags
@@ -27775,7 +27775,13 @@ window.global = window;
  * APPLICATION IMPORTS
  */
 
-projects_gutenberg_angular_src_lib_assets__WEBPACK_IMPORTED_MODULE_2__["WINDOW_CONFIG"].init({ fetch: null });
+projects_gutenberg_angular_src_lib_assets__WEBPACK_IMPORTED_MODULE_1__["WINDOW_CONFIG"].init({
+    fetch: null,
+    settings: {
+        // url: "localhost:8000",
+        root: '?rest_route=/'
+    }
+});
 // (window as any).wp = {
 //     apiFetch: API_FETCH_FUNC,
 //     url: { addQueryArgs }

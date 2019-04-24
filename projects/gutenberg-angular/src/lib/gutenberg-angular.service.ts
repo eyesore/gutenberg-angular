@@ -6,6 +6,7 @@ import { shareReplay, filter } from 'rxjs/operators';
 import { GenericObj } from './assets/generic';
 import { log } from './log/log.class';
 import { FETCH_MAP, DATA } from './assets';
+import apiFetch from '@wordpress/api-fetch';
 
 @Injectable()
 export class GutenbergAngularService implements OnInit {
@@ -34,7 +35,13 @@ export class GutenbergAngularService implements OnInit {
                     this.findResponse(payload);
                 });
             }
-
+            apiFetch.use((options, next) => {
+                const result = next(options);
+                result.then(r => {
+                    log.Debug('result: ', r);
+                });
+                return result;
+            });
         // if (windowConfig) {
         //     // Object.assign(this.w, windowConfig);
         //     this.w.userSettings.uid = windowConfig.userSettings.uid;
