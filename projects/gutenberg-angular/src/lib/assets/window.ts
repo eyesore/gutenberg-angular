@@ -3,10 +3,10 @@ import { Observable } from 'rxjs';
 
 export interface WP {
     [key: string]: any;
-    url: {
+    url?: {
         addQueryArgs
     };
-    apiFetch(option): any;
+    apiFetch?: (option) => any;
 }
 
 export interface WPApiSettings {
@@ -24,6 +24,7 @@ export interface Window {
     userSettings: UserSettings;
     wpApiSettings: WPApiSettings;
     wp_fetcher?: Observable<any>;
+    wp_config_mode?: string;
     [key: string]: any;
 }
 

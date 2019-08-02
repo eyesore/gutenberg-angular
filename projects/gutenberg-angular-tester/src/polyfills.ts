@@ -1,8 +1,8 @@
 // import { API_FETCH_FUNC } from 'gutenberg-angular/esm2015/lib/assets';
 (window as any).global = window;
-if (!(global as any)._babelPolyfill && !(window as any)._babelPolyfill) {
-    require('babel-polyfill');
-  }
+// if (!(global as any)._babelPolyfill && !(window as any)._babelPolyfill) {
+//     require('babel-polyfill');
+//   }
 
 /**
  * This file includes polyfills needed by Angular and is loaded before the app.
@@ -68,11 +68,24 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
  */
 import { WINDOW_CONFIG } from 'projects/gutenberg-angular/src/lib/assets';
 
+
+// apiFetch.use((options, next) => {
+//     const result = next(options);
+//     result.then(r => {
+//         console.log('result: ', r);
+//     });
+//     return result;
+// });
+// console.log('window: wp: apiFetch', (window as any).wp.apiFetch);
+
+const settings = (window as any).wpApiSettings;
+console.log(settings);
+
 WINDOW_CONFIG.init({
     fetch: null,
-    settings: {
+    settings: settings ? settings : {
         // url: "localhost:8000",
-        root: '?rest_route=/'
+        root: '/index.php?rest_route=/'
     }
 });
 // (window as any).wp = {

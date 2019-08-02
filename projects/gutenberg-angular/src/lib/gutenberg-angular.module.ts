@@ -1,4 +1,6 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+import { HttpModule } from '@angular/http';
 import { GutenbergAngularComponent } from './gutenberg-angular.component';
 import { WindowConfig } from './assets/window';
 import { GutenbergAngularService } from './gutenberg-angular.service';
@@ -7,6 +9,8 @@ import { GutenbergAngularService } from './gutenberg-angular.service';
 @NgModule({
     declarations: [GutenbergAngularComponent],
     imports: [
+        HttpModule,
+        HttpClientModule
     ],
     exports: [GutenbergAngularComponent],
     providers: [

@@ -1,4 +1,3 @@
-import { Title } from '@angular/platform-browser';
 
 export type StringDate = string | Date;
 export type StatusTypes = 'published' | 'future' | 'draft' | 'pending' | 'private';
@@ -52,7 +51,7 @@ export interface IStatusType {
     type?: string;
 }
 
-export interface Identifiable extends GlobalIdable, Title, Dateable,
+export interface Identifiable extends GlobalIdable, Titlable, Dateable,
                                         ModifiedTrackable, AuthorRelatable,
                                         BaseIdentifiable {}
 export interface ITemplateCommentStatusPing extends IStatusType {
@@ -90,3 +89,23 @@ export interface IBaseTaxPostType extends Namable, Describable, Slugable {
     labels: GenericObj;
     rest_base: string;
 }
+
+export interface EditorConfig  { // not complete.
+    alignWide: boolean;
+    availableTemplates: [];
+    allowedBlockTypes: boolean;
+    disableCustomColors: boolean;
+    disablePostFormats: boolean;
+    titlePlaceholder: string;
+    bodyPlaceholder: string;
+    isRTL: boolean;
+    autosaveInterval: number;
+    canPublish: boolean;
+    canSave: boolean;
+    canAutosave: boolean;
+    mediaLibrary: boolean;
+    postLock: {
+        isLocked: boolean;
+    };
+    [key: string]: any;
+  }

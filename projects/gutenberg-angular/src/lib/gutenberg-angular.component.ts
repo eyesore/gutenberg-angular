@@ -1,7 +1,7 @@
-import { Component, AfterViewInit, Inject } from '@angular/core';
+import { Component, AfterViewInit, Inject, Output, EventEmitter, Input } from '@angular/core';
 import { GutenbergAngularService } from './gutenberg-angular.service';
 import { domReady, data, editPost } from '@frontkom/gutenberg-js';
-import { WindowConfig } from './assets';
+import { WindowConfig, GenericObj, EditorConfig } from './assets';
 import { log } from './log/log.class';
 import { filter, tap } from 'rxjs/operators';
 
@@ -13,12 +13,22 @@ import { filter, tap } from 'rxjs/operators';
   styles: []
 })
 export class GutenbergAngularComponent implements AfterViewInit {
-
+  private _page: number;
+  @Input() config: EditorConfig;
+  @Input() slug = 'page';
+  @Input()
+  get page(): number {
+    return this._page;
+  }
+  set page(p: number) {
+    this._page = p;
+  }
+  @Output() onApiFetch = new EventEmitter<GenericObj>();
   constructor(
     private _gas: GutenbergAngularService,
     @Inject('WINDOW') private w: WindowConfig
   ) {
-
+      this._gas.apiFetch$.subscribe(val => this.onApiFetch.emit(val));
    }
 
   ngAfterViewInit() {
@@ -26,9 +36,9 @@ export class GutenbergAngularComponent implements AfterViewInit {
     log.Debug('ngAfterViewInit: window: ', Object.assign({}, (window as any).wpApiSettings));
 
     // reset localStorage
-    this._gas.removeStorageItem('g-editor-page');
+    // this._gas.removeStorageItem('g-editor-page');
 
-    const settings = {
+    const settings: EditorConfig = this.config ? this.config : {
       alignWide: true,
       availableTemplates: [],
       allowedBlockTypes: true,
@@ -50,21 +60,7 @@ export class GutenbergAngularComponent implements AfterViewInit {
      // Disable tips
     data.dispatch('core/nux').disableTips();
 
-    (window as any)._wpLoadGutenbergEditor = new Promise(function(resolve) {
-      domReady(function() {
-          resolve(editPost.initializeEditor('editor', 'page', 1, settings, {}));
-      });
-  });
-    // editPost.initializeEditor('editor', 'page', 1, settings, {});
-    // this._gas.ready$.pipe(
-    //   tap(val => log.Debug('ready: ', val)),
-    //   filter(value => Boolean(value))
-    // ).subscribe(_ => {
-    //   log.Debug('init editPost...');
-
-    // });
-
-
+    editPost.initializeEditor('editor', this.slug, this.page, settings, {});
   }
 
 }

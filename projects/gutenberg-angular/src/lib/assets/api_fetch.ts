@@ -1,10 +1,11 @@
 import { log } from '../log/log.class';
-import { Observable, BehaviorSubject, merge, Subject } from 'rxjs';
+import { Observable, BehaviorSubject, merge, Subject, of } from 'rxjs';
 import { BaseResponser } from './response';
 import { tap, filter, take } from 'rxjs/operators';
 import { parse, stringify } from 'querystring';
 import { WP } from './window';
-
+import * as API_FETCH_DEFAULT from '@wordpress/api-fetch';
+log.Debug('default: fetch: ', API_FETCH_DEFAULT);
 // export const API_FETCH_FUNC = (options) => console.log(options);
 // export const API_FETCH_FUNC = (options): Promise<any> => {
 //     log.Debug("options: ", options);
@@ -44,39 +45,81 @@ class FetchHandler {
 
 const PROXY = new FetchHandler();
 
+interface IFetch {
+    wp?: WP;
+    observe?: Observable<any>;
+}
+
+export enum ConfigMode {
+    DEMO = 'demo',
+    MANUAL = 'manual',
+    AUTO = 'auto'
+}
+
 export interface Window_Config {
-   fetch: {
-       wp: WP;
-       observe: Observable<any>
-   };
-   user?: {
+    mode: ConfigMode;
+    fetch?: IFetch;
+    user?: {
        uid: string;
-   };
-   settings?: {
+    };
+    settings?: {
        root: string;
        url?: string;
-   };
+    };
 }
 
 export const WINDOW_CONFIG = {
     init: (options?: Window_Config) => {
-        if (options.fetch != null) {
+        if (!('fetch' in options) || options.fetch != null ) {
             addApiFetch(options.fetch);
         }
 
         addUserSettings(options.user);
         addApiSettings(options.settings);
-
+        addConfigMode(options.mode);
 
         (window as any).save = (content) => {
             log.Debug(content);
           };
+    },
+    contextInit: (options?: Window_Config) => {
+        log.Debug('context init: options', options);
+        log.Debug('is fetch NOT null: ', options.fetch != null);
+        if (!('fetch' in options) || options.fetch != null) {
+            (window as any).wp = {
+
+                apiFetch: (request) => {
+                    let resp = {};
+                    log.Debug('path: ', request.path);
+                    switch (request.path) {
+                        case '/wp/v2/types?context=edit':
+                            resp = {page: DATA.pageType} ;
+                            break;
+                        case '/wp/v2/types/page?context=edit':
+                            resp = { ...DATA.pageType };
+                            break;
+                        default:
+                            // return apiFetch(request);
+                            console.log('normal path: ', request);
+                            return API_FETCH_DEFAULT.default(request);
+
+                    }
+                    log.Debug('resp: ', resp);
+                    return of(resp).toPromise();
+                }
+            };
+        }
+        addUserSettings(options.user);
+        addApiSettings(options.settings);
+        addConfigMode(options.mode);
     }
 };
-const addApiFetch = (options = {
+const addConfigMode = (mode: ConfigMode = ConfigMode.AUTO) => {
+    (window as any).wp_config_mode = mode;
+};
+const addApiFetch = (options: IFetch = {
     wp: {
-        apiFetch: API_FETCH_FUNC,
-        url: { addQueryArgs }
+        apiFetch: API_FETCH_FUNC
     },
     observe: PROXY.observe
 }) => {
@@ -89,13 +132,13 @@ const addUserSettings = (options = {
     uid: 'g-editor-page'
 }) => {
     (window as any).userSettings = options; // Among other things, this uid is used to identify and store editor user preferences in localStorage
-}
+};
 
 const addApiSettings = (options = {root: ''}) => {
     if (options) {
         (window as any).wpApiSettings = options;
     }
-}
+};
 
 const DATE = (new Date()).toISOString();
 

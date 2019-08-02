@@ -10,6 +10,7 @@
     <script type="text/javascript" src="<?= plugins_url()?>/gutenberg-angular/includes/js/gutenberg-angular-tester/scripts.js"></script>
     <script type="text/javascript" src="<?= plugins_url()?>/gutenberg-angular/includes/js/gutenberg-angular-tester/vendor.js"></script>
     <script type="text/javascript" src="<?= plugins_url()?>/gutenberg-angular/includes/js/gutenberg-angular-tester/main.js"></script>
+    <script type="text/javascript" src="<?= plugins_url()?>/gutenberg-angular/includes/local.js"></script>
 </div>
 
 

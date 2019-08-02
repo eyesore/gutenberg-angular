@@ -1,9 +1,8 @@
 import {
     FormatTypes, ITemplateCommentStatusPing, Securable,
-    Parentable, ExcerptContainable, Metable, BaseArgumentLister, ExtrasArgumentListers } from './generic';
-import { Identifiers } from '@angular/compiler';
+    Parentable, ExcerptContainable, Metable, BaseArgumentLister, ExtrasArgumentListers, Identifiable } from './generic';
 
-export interface IPost extends Identifiers, ITemplateCommentStatusPing, Securable, ExcerptContainable, Metable {
+export interface IPost extends Identifiable, ITemplateCommentStatusPing, Securable, ExcerptContainable, Metable {
     featured_media?: number;
     format?: FormatTypes;
     sticky?: boolean;
@@ -11,7 +10,7 @@ export interface IPost extends Identifiers, ITemplateCommentStatusPing, Securabl
     tags?: string[];
 }
 
-export interface IPostRevision extends Identifiers, Parentable, ExcerptContainable, Metable {
+export interface IPostRevision extends Identifiable, Parentable, ExcerptContainable, Metable {
 }
 
 export interface IPostLister extends BaseArgumentLister, ExtrasArgumentListers {
